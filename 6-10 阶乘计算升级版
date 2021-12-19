@@ -1,0 +1,54 @@
+/*6-10 阶乘计算升级版 (20 分)
+本题要求实现一个打印非负整数阶乘的函数。
+函数接口定义：void Print_Factorial ( const int N );
+其中N是用户传入的参数，其值不超过1000。如果N是非负整数，则该函数必须在一行中打印出N!的值，否则打印“Invalid input”。
+输入样例：15
+输出样例：1307674368000
+*/
+
+#include <stdio.h>
+
+void Print_Factorial ( const int N );
+
+int main()
+{
+    int N;
+
+    scanf("%d", &N);
+    Print_Factorial(N);
+    return 0;
+}
+
+/* 你的代码将被嵌在这里 */
+
+void Print_Factorial ( const int N )
+{
+    int result[10001] = {1};
+    int i, a, b;
+    int *front, *rear, *p;
+    front = result;
+    rear = front + 1;
+    if(N < 0){
+        printf("Invalid input");
+    }else{
+        for(i = 2; i <= N; i ++){
+            a = 0;
+            for(p = front; p < rear; p ++){
+                *p = *p * i + a;
+                a = *p / 10;
+                *p %= 10;
+            }
+            while(a){
+                *p++ = a % 10;
+                a /= 10;
+            }
+            rear = p;
+            while(*front == 0){
+                front ++;
+            }
+        }
+        for(p = rear-1; p >= result; p --){
+            printf("%d", *p);
+        }
+    }
+}
